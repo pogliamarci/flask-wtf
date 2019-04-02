@@ -27,7 +27,9 @@ class RecaptchaWidget(object):
             script += u'?' + url_encode(params)
 
         nonce_attr = ''
-        if nonce is not None:
+        if callable(nonce):
+            nonce_attr = RECAPTCHA_NONCE % nonce()
+        elif nonce is not None:
             nonce_attr = RECAPTCHA_NONCE % nonce
 
         attrs = current_app.config.get('RECAPTCHA_DATA_ATTRS', {})
